@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1>📝 My Notes</h1>
+<form method="post">
+    <input type="text" name="note" placeholder="Write a note..." required>
+    <button type="submit">Add Note</button>
+</form>
+
+<ul>
+    {% for note in notes %}
+    <li>
+        {{ note[1] }}
+        <a href="/delete/{{ note[0] }}" class="delete">🗑️</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
