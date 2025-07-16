@@ -30,5 +30,20 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t notes-app .
+        
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy to EC2 via SSH
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ec2-user
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          cd /home/ec2-user/notes-app
+          ./deploy.sh
 
     # Optional: push Docker image to Docker Hub or GitHub Container Registry here
